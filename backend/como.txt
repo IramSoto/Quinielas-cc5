@@ -1,0 +1,197 @@
+- solo en el log in y el nuevo usuario no se debe enviar un header
+
+en el header siempre debe ir un campo token que al realizar el login el backend te devolvera un token 
+para saber si es un usuario administrador o no y que pueda realizar ciertos procesos de eliminar cosas de la base de datos por ejemplo
+
+Ruta: /api/login -post -----------------------------
+    Enviar 
+        body
+        {
+            username: '',
+            password: ''
+        }
+    Recibir
+        body
+        {
+            token: '',
+            msg: ''
+        }
+
+
+Ruta: /api/user --------------------------------
+post
+    Enviar 
+        body
+        {
+            username: '',
+            password: ''
+        }
+    Recibir esperado
+        body
+        {
+            token: '',
+            msg: ''
+        }
+    Recibir error
+        body
+        {
+            msg: 'usuario o contraseña incorrecta'
+        }
+get - solo devuelve usuarios Clientes no muestra ningun usuario administrador
+Enviar Token en el header
+Recibir
+body - nuca se devuelve la contraseña
+    {
+        "idusuario": 2,
+        "username": "Iram",
+        "fgrupos": 0,
+        "foctavos": 0,
+        "fcuartos": 0,
+        "fsemi": 0,
+        "ffinales": 0,
+        "puntost": 0
+    }     
+get - concatenar id a la ruta asi: '/api/user/id'
+para obtener los datos de un usuario especifico
+solo debe enviar el token en el header
+se envia de la misma forma que el anterior
+
+para actualizar un usuario se necesita '/api/user/id'
+en el json se debe enviar:
+{
+    username:'',
+    password:''
+
+}
+los otros datos no se cambiaran ni por el administrador ya que se maneja todo desde la base de datos
+y la respuesta es un msg: '' que dice que se logro el procededimiento o si este por alguna razon tirar un errer ver el status del mensaje
+
+Delete usar ruta '/api/user/id'
+no devuelve mas que un mensaje ver status para saber si es error o no 
+
+Rutas de los Equipos: /api/Equipos/   si se requiere id colocarlo al final de la ruta /api/Equipos/id y 
+get - - y getById devuelve el siguiente formato:
+    {
+        "idequipo": 1,
+        "nombre": "Alemania",
+        "grupo": "A",
+        "pj": 0,
+        "pg": 0,
+        "pp": 0,
+        "pe": 0,
+        "ga": 0,
+        "ge": 0,
+        "dg": 0
+    }
+/api/Equipos/Grupo - enviar en el body uno de los grupos de la A a la H
+la misma respuesta de arriba 
+para el post que es ingresar un nuevo enviar:
+{
+    "nombre": "",
+    "grupo": ""
+}
+resive un msg
+
+para actualizar put enviar los siguientes valores con el formato de json:
+{nombre, bandera, grupo, pg, pp, pe, ga, ge}
+y e id en la ruta
+
+responde con un msg:
+
+para el delete solo enviar el id en la ruta y esto responde con un msg
+
+Para las rutas de los estadios
+get /api/Estadios/
+get /api/Estadios/id
+post /api/Estadios/
+put /api/Estadios/id
+delete /api/Estadios/id
+
+formato a enviar o recibir y si tira algun error y en los que no son get se envia solo un msg 
+{
+    idestadio: "",
+    nombre: ""
+}
+
+Rutas de las Fases
+get /api/fases/
+get /api/fases/id
+post /api/fases/
+put /api/fases/id
+delete /api/fases/id
+si exixste un error devuelve msg o si es peticion put, post, delete
+formato
+    {
+        "idfase": 1,
+        "fase": "Grupos",
+        "finalizado": false
+    }
+
+
+Rutas para Partidos
+get /api/partidos
+get /api/partidos/bydate        - enviar fecha en el boddy
+get /api/partidos/byteam/id     - id del team
+get /api/partidos/byfase/id
+get /api/partidos/bygrupo       -enviar el grupo en el body
+get /api/partidos/id            -obtener un partido en especifico
+put /api/partidos/id
+post /api/partidos              -enviar estos datos { idequipo1, idequipo2, fecha, hora, idfase,  idestadio }
+delete /api/partidos/id
+
+formato:
+    {
+        "idpartido": 5,
+        bandera1: "",
+        bandera2: "",
+        "nombre1": "Alemania",
+        "idequipo1": 1,
+        "nombre2": "Argentina",
+        "idequipo2": 2,
+        "gequipo1": 0,
+        "gequipo2": 0,
+        "fecha": "2022-06-12T06:00:00.000Z",
+        "hora": "10:00:00",
+        "fase": "Grupos",
+        "idfase": 1,
+        "estadio": "Al Zumama",
+        "idestadio": 2
+    },
+
+Rutas para quinielas
+get     /api/quinielas
+get     /api/quinielas/userpartido
+get     /api/quinielas/User/id
+get     /api/quinielas/partido/id
+delete  /api/quinielas
+delete  /api/quinielas/user/id
+delete  /api/quinielas/partido/id
+put     /api/quinielas/id
+post    /api/quinielas
+
+formato
+    {
+        "idusuario": 2,
+        "username": "Iram",
+        "idpartido": 5,
+        "mequipo1": 2,
+        "equipo1": "Alemania",
+        "mequipo2": 1,
+        "equipo2": "Argentina",
+        "gequipo1": 0,
+        "gequipo2": 0
+    }
+la carpeta ndoe_module no ira en los archivos por lo que para que todo este bien 
+1   tenes que tener instalado npm 
+2   usar el comando "npm i" desde la terminal y asegurarte que estes dentro de la carpeta backend
+3   cambia los datos de la base de datos que estan en la carpeta database
+4   asegurarse de tener la base de datos postgreSQL
+5   correr el script de la base de datos que esta en el archivo con nombre "base de datos"
+
+el usuario de Admin debe actualizar las fases diciendo que ya se terminaron las fases para que coloque los siguientes 
+partidos para las siguientes fases
+
+
+
+
+
